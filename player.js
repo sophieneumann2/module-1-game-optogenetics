@@ -6,7 +6,8 @@ class Player {
     this.x = (this.game.canvas.width - this.width) / 2;
     this.y = this.game.canvas.height * 0.8 - this.height;
     this.speed = 0;
-    this.goUp = true;
+    this.GRAVITY = 10;
+    this.enableJumping = true;
   }
 
   runLogic() {
@@ -29,25 +30,22 @@ class Player {
   }
 
   jump() {
-    const GRAVITY = 0.2;
     const floorLevel = this.game.canvas.height * 0.8 - this.height;
-    const jumpHeight = this.game.canvas.height * 0.25;
 
-    if (this.goUp) {
-      if (this.y <= jumpHeight) {
-        this.speed *= -1;
-        this.speed += GRAVITY;
-        this.goUp = false;
-      } else {
-        this.speed += GRAVITY;
-      }
-    } else {
-      if (this.y >= floorLevel) {
-        this.speed = 0;
-      } else {
-        this.speed += GRAVITY * 0.9;
-      }
+    if (!this.enableJumping) {
+      this.speed = -10;
+      this.enableJumping = true;
     }
-    this.y -= this.speed;
+
+    this.speed += (this.GRAVITY / 1000) * 16;
+    this.y += this.speed;
+
+    if (this.y > floorLevel) {
+      this.speed = 0;
+      this.y = floorLevel;
+      return;
+    }
+
+    console.log(`speed is  ${this.speed}`);
   }
 }

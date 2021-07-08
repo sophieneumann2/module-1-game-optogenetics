@@ -5,6 +5,9 @@ class Game {
     this.canvasWidth = this.canvas.width;
     this.canvasHeight = this.canvas.height;
     this.targets = [];
+    this.targetWord = 'CHOCOLATE';
+    this.enableControls();
+    //this.chooseTargetWord();
   }
   paintBackground() {
     this.context.fillStyle = 'rgb(255, 134, 150)';
@@ -25,9 +28,27 @@ class Game {
     this.player = new Player(this);
   }
 
-  addTarget() {
-    const newTarget = new Target(this);
+  addTarget(letter) {
+    const newTarget = new Target(this, letter);
     this.targets.push(newTarget);
+  }
+
+  chooseTargetWord() {
+    const possibleTargetWords = [
+      'CHOCOLATE',
+      'HAPPINESS',
+      'ADVENTURE',
+      'KNOWLEDGE',
+      'PINEAPPLE',
+      'WONDERFUL',
+      'BREAKFAST',
+      'WHIMSICAL'
+    ];
+    this.targetWord =
+      possibleTargetWords[
+        Math.floor(Math.random() * possibleTargetWords.length)
+      ];
+    return;
   }
 
   paintPlayer() {
@@ -50,15 +71,37 @@ class Game {
   }
 
   runLogic() {
-    setInterval(() => {
-      this.addTarget();
-    }, 3000);
+    while (this.targets.length < this.targetWord.length) {
+      setInterval(() => {
+        this.addTarget(this.targetWord[this.targets.length]);
+      }, 3000);
+    }
 
     setInterval(() => {
-      this.player.jump();
       this.targets.forEach((target) => target.runLogic());
       this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
       this.paint();
     }, 1000 / 60);
+  }
+
+  movePlayer() {
+    this.player.enableJumping = false;
+    setInterval(() => {
+      this.player.jump();
+      this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+      this.paint();
+    }, 1000 / 60);
+    return;
+  }
+
+  enableControls() {
+    window.addEventListener('keydown', (event) => {
+      if (event.code == 'Space') {
+        console.log(
+          '++++++++++++++++++++++++++++START OF JUUUUUUUUUUMP++++++++++++++++++++++++++++'
+        );
+        if (this.player.enableJumping) this.movePlayer();
+      }
+    });
   }
 }
