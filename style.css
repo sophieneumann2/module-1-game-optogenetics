@@ -1,0 +1,21 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: rgba(255, 96, 91, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+canvas {
+  background-color: rgb(255, 134, 130);
+}
+
+h1 {
+  font-size: 3em;
+}
