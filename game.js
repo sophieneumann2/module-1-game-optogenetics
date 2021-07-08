@@ -1,3 +1,6 @@
+/*const backgroundImage = new Image();
+backgroundImage.src = '/images/background.jpg';
+*/
 class Game {
   constructor(canvas) {
     this.canvas = canvas;
@@ -5,16 +8,26 @@ class Game {
     this.canvasWidth = this.canvas.width;
     this.canvasHeight = this.canvas.height;
     this.targets = [];
-    this.targetWord = 'CHOCOLATE';
+    this.targetWord = '';
     this.enableControls();
-    //this.chooseTargetWord();
+    this.backgroundShift = 0;
+    this.chooseTargetWord();
   }
   paintBackground() {
+    /*this.context.drawImage(
+      backgroundImage,
+      this.backgroundShift,
+      200,
+      900,
+      700,
+      0,
+      0,
+      900,
+      700
+    );
+    this.backgroundShift += 3;*/
     this.context.fillStyle = 'rgb(255, 134, 150)';
     this.context.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
-  }
-
-  paintGround() {
     this.context.fillStyle = 'darkred';
     this.context.fillRect(
       0,
@@ -59,19 +72,13 @@ class Game {
     this.targets.forEach((target) => target.paint());
   }
 
-  moveTarget() {
-    this.targets[0].runLogic();
-  }
-
   paint() {
     this.paintBackground();
     this.paintPlayer();
-    this.paintGround();
-    this.paintTarget();
   }
 
   runLogic() {
-    while (this.targets.length < this.targetWord.length) {
+    if (this.targets.length < this.targetWord.length) {
       setInterval(() => {
         this.addTarget(this.targetWord[this.targets.length]);
       }, 3000);
@@ -79,19 +86,13 @@ class Game {
 
     setInterval(() => {
       this.targets.forEach((target) => target.runLogic());
-      this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
-      this.paint();
-    }, 1000 / 60);
-  }
-
-  movePlayer() {
-    this.player.enableJumping = false;
-    setInterval(() => {
       this.player.jump();
       this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
       this.paint();
+      if (this.targets.length <= this.targetWord.length) {
+        this.paintTarget();
+      }
     }, 1000 / 60);
-    return;
   }
 
   enableControls() {
@@ -100,7 +101,7 @@ class Game {
         console.log(
           '++++++++++++++++++++++++++++START OF JUUUUUUUUUUMP++++++++++++++++++++++++++++'
         );
-        if (this.player.enableJumping) this.movePlayer();
+        if (this.player.enableJumping) this.player.doJump = true;
       }
     });
   }

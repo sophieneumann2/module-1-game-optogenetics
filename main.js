@@ -3,4 +3,3 @@ const game = new Game(canvasElement);
 console.dir(game);
 game.addPlayer();
 game.runLogic();
-game.paint();

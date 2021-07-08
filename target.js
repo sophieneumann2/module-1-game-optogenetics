@@ -4,7 +4,7 @@ class Target {
     this.width = 90;
     this.height = 20;
     this.x = this.game.canvas.width - this.width * 2;
-    this.y = this.game.canvas.height * 0.3;
+    this.y = this.game.canvas.height * 0.33;
     this.speed = 2;
     this.letter = letter;
     this.context = this.game.context;
@@ -19,7 +19,7 @@ class Target {
   paintLetter() {
     this.context.font = '110px Arial';
     this.context.fillStyle = 'black';
-    const targetLetter = this.context.fillText(this.letter, this.x + 8, this.y);
+    const targetLetter = this.context.fillText(this.letter, this.x + 6, this.y);
     const textMeasures = this.context.measureText(targetLetter);
     this.textHeight =
       textMeasures.actualBoundingBoxAscent +
