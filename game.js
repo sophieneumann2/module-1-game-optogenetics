@@ -7,25 +7,29 @@ class Game {
     this.context = canvas.getContext('2d');
     this.canvasWidth = this.canvas.width;
     this.canvasHeight = this.canvas.height;
-    this.targets = [];
     this.targetWord = '';
+    this.targets = [];
+    this.numberOfDisplayedTargets = 0;
+    this.collectedTargets = [];
     this.enableControls();
     this.backgroundShift = 0;
     this.chooseTargetWord();
+    this.alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   }
   paintBackground() {
     /*this.context.drawImage(
       backgroundImage,
       this.backgroundShift,
       200,
-      900,
-      700,
+      500,
+      200,
       0,
       0,
       900,
       700
     );
     this.backgroundShift += 3;*/
+
     this.context.fillStyle = 'rgb(255, 134, 150)';
     this.context.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
     this.context.fillStyle = 'darkred';
@@ -44,6 +48,14 @@ class Game {
   addTarget(letter) {
     const newTarget = new Target(this, letter);
     this.targets.push(newTarget);
+    this.numberOfDisplayedTargets++;
+  }
+
+  checkWin() {
+    if (this.collectedTargets.join('') == this.targetWord) {
+      console.log('YOU WIN, LITTLE SUPERHERO! :)');
+    }
+    console.log('SORRY, YOU LOST :(');
   }
 
   chooseTargetWord() {
@@ -55,7 +67,13 @@ class Game {
       'PINEAPPLE',
       'WONDERFUL',
       'BREAKFAST',
-      'WHIMSICAL'
+      'WHIMSICAL',
+      'DANDELION',
+      'MOUSTACHE',
+      'SENSATION',
+      'ARMSTRONG',
+      'EVERGREEN',
+      'FIREPLACE'
     ];
     this.targetWord =
       possibleTargetWords[
@@ -78,11 +96,13 @@ class Game {
   }
 
   runLogic() {
-    if (this.targets.length < this.targetWord.length) {
-      setInterval(() => {
-        this.addTarget(this.targetWord[this.targets.length]);
-      }, 3000);
-    }
+    setInterval(() => {
+      if (this.numberOfDisplayedTargets < this.targetWord.length) {
+        this.addTarget(this.targetWord[this.numberOfDisplayedTargets]);
+      } else {
+        this.checkWin();
+      }
+    }, 3000);
 
     setInterval(() => {
       this.targets.forEach((target) => target.runLogic());
@@ -98,9 +118,6 @@ class Game {
   enableControls() {
     window.addEventListener('keydown', (event) => {
       if (event.code == 'Space') {
-        console.log(
-          '++++++++++++++++++++++++++++START OF JUUUUUUUUUUMP++++++++++++++++++++++++++++'
-        );
         if (this.player.enableJumping) this.player.doJump = true;
       }
     });
