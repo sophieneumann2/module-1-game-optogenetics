@@ -1,23 +1,24 @@
-const playerImage = new Image();
-playerImage.src = '/images/player.png';
+const enemyImage = new Image();
+enemyImage.src = '/images/enemy.png';
 
-class Player {
+class Enemy {
   constructor(game, speed, gravity) {
     this.game = game;
-    this.width = 90;
-    this.height = 90;
-    this.x = (this.game.canvas.width - this.width) / 3;
+    this.width = 80;
+    this.height = 80;
+    this.x = ((this.game.canvas.width - this.width) / 3) * 2;
     this.y = this.game.canvas.height * 0.8 - this.height;
     this.jumpingStartSpeed = speed;
     this.speed = 0;
     this.GRAVITY = gravity;
     this.enableJumping = true;
     this.doJump = false;
+    this.targetOfLastJump = new Target(this.game, '');
   }
 
   paint() {
     const context = this.game.context;
-    context.drawImage(playerImage, this.x, this.y, this.width, this.height);
+    context.drawImage(enemyImage, this.x, this.y, this.width, this.height);
   }
 
   checkTargetIntersection() {
@@ -29,10 +30,20 @@ class Player {
         this.y <= target.y + target.height &&
         this.y + this.height >= target.y
       ) {
-        this.game.collectedTargets.push(target.letter);
         this.game.targets.splice(letter, 1);
       }
       letter++;
+    }
+  }
+
+  checkIfEnemyShouldJump() {
+    for (let target of this.game.targets) {
+      if (this.x + this.width >= target.x && this.x < target.x + target.width) {
+        if (this.targetOfLastJump != target && this.enableJumping) {
+          this.doJump = true;
+          this.targetOfLastJump = target;
+        }
+      }
     }
   }
 
@@ -53,7 +64,6 @@ class Player {
       this.y = floorLevel;
       this.doJump = false;
       this.enableJumping = true;
-      this.game.lastJump = Date.now();
     }
   }
 }

@@ -2,19 +2,21 @@
 backgroundImage.src = '/images/background.jpg';
 */
 class Game {
-  constructor(canvas) {
+  constructor(canvas, screens) {
     this.canvas = canvas;
     this.context = canvas.getContext('2d');
     this.canvasWidth = this.canvas.width;
     this.canvasHeight = this.canvas.height;
     this.targetWord = '';
     this.targets = [];
-    this.numberOfDisplayedTargets = 0;
-    this.collectedTargets = [];
-    this.enableControls();
-    this.backgroundShift = 0;
-    this.chooseTargetWord();
     this.alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    this.backgroundShift = 0;
+    this.lastTargetCreationTimestamp = Date.now();
+    this.targetCreationInterval = 3000;
+
+    this.running = false;
+    this.screens = screens;
+    this.enableControls();
   }
   paintBackground() {
     /*this.context.drawImage(
@@ -41,8 +43,23 @@ class Game {
     );
   }
 
-  addPlayer() {
-    this.player = new Player(this);
+  displayScreen(name) {
+    const screenThatShouldBeDisplayed = this.screens[name];
+    const screensThatShouldBeHidden = Object.values(this.screens).filter(
+      (screen) => screen !== screenThatShouldBeDisplayed
+    );
+    screenThatShouldBeDisplayed.style.display = '';
+    for (const screen of screensThatShouldBeHidden) {
+      screen.style.display = 'none';
+    }
+  }
+
+  addPlayer(speed, gravity) {
+    this.player = new Player(this, speed, gravity);
+  }
+
+  addEnemy(speed, gravity) {
+    this.enemy = new Enemy(this, speed, gravity);
   }
 
   addTarget(letter) {
@@ -52,10 +69,15 @@ class Game {
   }
 
   checkWin() {
+    this.context.font = '30px Arial';
     if (this.collectedTargets.join('') == this.targetWord) {
-      console.log('YOU WIN, LITTLE SUPERHERO! :)');
+      this.screens['end'].querySelector('h3').innerText =
+        'YOU WIN, LITTLE SUPERHERO! :)';
+    } else {
+      this.screens['end'].querySelector('h3').innerText = 'SORRY, YOU LOST :(';
     }
-    console.log('SORRY, YOU LOST :(');
+    this.running = false;
+    console.log('Game stopped');
   }
 
   chooseTargetWord() {
@@ -82,8 +104,22 @@ class Game {
     return;
   }
 
+  clearTargets() {
+    let letterIndex = 0;
+    for (let target of this.targets) {
+      if (target.x + target.width <= 0) {
+        this.targets.splice(letterIndex, 1);
+      }
+      letterIndex++;
+    }
+  }
+
   paintPlayer() {
     this.player.paint();
+  }
+
+  paintEnemy() {
+    this.enemy.paint();
   }
 
   paintTarget() {
@@ -91,35 +127,67 @@ class Game {
   }
 
   paint() {
+    this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
     this.paintBackground();
     this.paintPlayer();
+    this.paintTarget();
+    this.paintEnemy();
   }
 
   runLogic() {
-    setInterval(() => {
+    const currentTimestamp = Date.now();
+    if (
+      currentTimestamp - this.lastTargetCreationTimestamp >
+      this.targetCreationInterval
+    ) {
       if (this.numberOfDisplayedTargets < this.targetWord.length) {
         this.addTarget(this.targetWord[this.numberOfDisplayedTargets]);
+        this.lastTargetCreationTimestamp = currentTimestamp;
       } else {
-        this.checkWin();
+        if (!this.targets.length) {
+          this.checkWin();
+          this.displayScreen('end');
+        }
       }
-    }, 3000);
+    }
 
-    setInterval(() => {
-      this.targets.forEach((target) => target.runLogic());
-      this.player.jump();
-      this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
-      this.paint();
-      if (this.targets.length <= this.targetWord.length) {
-        this.paintTarget();
-      }
-    }, 1000 / 60);
+    this.clearTargets();
+
+    this.targets.forEach((target) => target.runLogic());
+    this.player.jump();
+
+    this.enemy.checkIfEnemyShouldJump();
+    this.enemy.jump();
+  }
+
+  loop() {
+    this.runLogic();
+    this.paint();
+    if (this.running) {
+      window.requestAnimationFrame(() => {
+        this.loop();
+      });
+    }
   }
 
   enableControls() {
     window.addEventListener('keydown', (event) => {
       if (event.code == 'Space') {
-        if (this.player.enableJumping) this.player.doJump = true;
+        if (this.player.enableJumping) {
+          this.player.doJump = true;
+        }
       }
     });
+  }
+
+  start(playerSpeed, playerGravity, enemySpeed, enemyGravity) {
+    this.chooseTargetWord();
+    this.numberOfDisplayedTargets = 0;
+    this.collectedTargets = [];
+    this.running = true;
+    this.displayScreen('playing');
+    this.addPlayer(playerSpeed, playerGravity);
+    this.addEnemy(enemySpeed, enemyGravity);
+    this.loop();
   }
 }
