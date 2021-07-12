@@ -49,8 +49,18 @@ class Game {
       (screen) => screen !== screenThatShouldBeDisplayed
     );
     screenThatShouldBeDisplayed.style.display = '';
+    /*if (screenThatShouldBeDisplayed[name] == 'configureProperties') {
+      for (const propertyCard of screen.getElementsByClassName) {
+        propertyCard.style.display = '';
+      }
+    }*/
     for (const screen of screensThatShouldBeHidden) {
       screen.style.display = 'none';
+      /*if (screen[name] == 'configureProperties') {
+        for (const propertyCard of screen.getElementsByClassName) {
+          propertyCard.style.display = 'none';
+        }
+      }*/
     }
   }
 
