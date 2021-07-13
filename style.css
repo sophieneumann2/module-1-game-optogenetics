@@ -38,19 +38,19 @@ h1 {
 }
 
 #screen-start > div {
-  background-image: url('/images/game-start.jpg');
+  background-image: url('/images/game-start.png');
   background-position: center;
   background-size: cover;
 }
 
 #screen-configure-properties > div {
-  background-image: url('/images/lab-image.jpg');
+  background-image: url('/images/lab-image.png');
   background-position: center;
   background-size: cover;
 }
 
 #screen-end {
-  background-image: url('/images/game-end.jpg');
+  background-image: url('/images/game-end.png');
   background-position: center;
   background-size: cover;
   display: flex;

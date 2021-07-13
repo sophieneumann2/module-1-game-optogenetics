@@ -1,5 +1,5 @@
 const backgroundImage = new Image();
-backgroundImage.src = '/images/background.jpg';
+backgroundImage.src = '/images/background.png';
 
 class Game {
   constructor(canvas, screens) {
