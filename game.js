@@ -9,8 +9,8 @@ class Game {
     this.canvasHeight = this.canvas.height;
     this.targetWord = '';
     this.targets = [];
+    this.displayedTargets = [];
     this.alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    this.backgroundShift = 0;
     this.lastTargetCreationTimestamp = Date.now();
     this.targetCreationInterval = 3000;
 
@@ -75,6 +75,7 @@ class Game {
   addTarget(letter) {
     const newTarget = new Target(this, letter);
     this.targets.push(newTarget);
+    this.displayedTargets.push(newTarget);
     this.numberOfDisplayedTargets++;
   }
 
@@ -133,7 +134,8 @@ class Game {
   }
 
   paintTarget() {
-    this.targets.forEach((target) => target.paint());
+    this.displayedTargets.forEach((target) => target.paintPlatform());
+    this.targets.forEach((target) => target.paintLetter());
   }
 
   paint() {
@@ -163,7 +165,7 @@ class Game {
 
     this.clearTargets();
 
-    this.targets.forEach((target) => target.runLogic());
+    this.displayedTargets.forEach((target) => target.runLogic());
     this.player.jump();
 
     this.enemy.checkIfEnemyShouldJump();

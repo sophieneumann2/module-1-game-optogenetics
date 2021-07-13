@@ -16,15 +16,14 @@ const screenElements = {
 
 const startButton = screenStartElement.querySelector('button');
 const startPlayingButton = screenConfigurePropertiesElement.lastElementChild;
-
 const buttonGroupJumpingPlayer = document.getElementsByName(
   'jumpingPropertyPlayer'
 );
 const buttonGroupJumpingEnemy = document.getElementsByName(
   'jumpingPropertyEnemy'
 );
-
 const tryAgainButton = screenEndElement.querySelector('button');
+
 const game = new Game(canvasElement, screenElements);
 
 const jumpingConfigurationPlayer = {};

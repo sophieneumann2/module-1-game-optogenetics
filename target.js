@@ -12,10 +12,21 @@ class Target {
     this.letter = letter;
     this.context = this.game.context;
     this.frame = 0;
+    this.platformHeight = 20;
   }
 
   paint() {
     this.paintLetter();
+  }
+
+  paintPlatform() {
+    this.context.fillStyle = 'white';
+    this.context.fillRect(
+      this.x,
+      this.y + this.height,
+      this.width,
+      this.platformHeight
+    );
   }
 
   paintLetter() {
