@@ -2,7 +2,14 @@ html,
 body {
   height: 100%;
   overflow: hidden;
+  font-family: 'Open Sans', cursive;
 }
+
+/* 
+font-family: 'Amatic SC', cursive;
+font-family: 'Bangers', cursive;
+font-family: 'Open Sans', sans-serif;
+*/
 
 body {
   background-color: rgba(255, 96, 91, 0.5);
@@ -19,4 +26,74 @@ canvas {
 
 h1 {
   font-size: 3em;
+}
+
+#screen-start,
+#screen-configure-properties,
+#screen-end,
+#screen-start > div,
+#screen-configure-properties > div {
+  width: 900px;
+  height: 700px;
+}
+
+#screen-start > div {
+  background-image: url('/images/game-start.jpg');
+  background-position: center;
+  background-size: cover;
+}
+
+#screen-configure-properties > div {
+  background-image: url('/images/lab-image.jpg');
+  background-position: center;
+  background-size: cover;
+}
+
+#screen-end {
+  background-image: url('/images/game-end.jpg');
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#screen-end > div {
+  width: 50%;
+  height: 40%;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 25px;
+  border: 0.5px solid yellow;
+}
+
+#game-name {
+  font-size: 5rem;
+  font-family: 'Bangers', cursive;
+  font-weight: bolder;
+  color: rgb(255, 251, 0);
+}
+
+.text-subheading {
+  font-size: 2rem;
+  font-family: 'Open Sans', cursive;
+  font-weight: bolder;
+  text-align: center;
+}
+
+.text-end-screen {
+  font-size: 3rem;
+  font-family: 'Bangers', cursive;
+  font-weight: bolder;
+  color: rgb(255, 251, 0);
+}
+
+.results-field {
+  background-color: rgba(0, 0, 0, 0.65);
+  width: 30%;
+  height: 20%;
+}
+
+#screen-configure-properties .card {
+  background-color: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(10px);
 }

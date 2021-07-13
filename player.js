@@ -13,6 +13,7 @@ class Player {
     this.GRAVITY = gravity;
     this.enableJumping = true;
     this.doJump = false;
+    //this.movingDown = false;
   }
 
   paint() {
@@ -36,6 +37,14 @@ class Player {
     }
   }
 
+  /*checkIfGoingDown() {
+    if (this.doJump && this.speed >= 0) {
+      this.movingDown = true;
+    } else {
+      this.movingDown = false;
+    }
+  }*/
+
   jump() {
     const floorLevel = this.game.canvas.height * 0.8 - this.height;
     if (this.doJump && this.enableJumping) {
@@ -44,6 +53,23 @@ class Player {
     }
 
     this.checkTargetIntersection();
+    //this.checkIfGoingDown();
+
+    /*this.speed += (this.GRAVITY / 1000) * 16;
+    this.y += this.speed;
+
+    if (this.movingDown) {
+      for (let target of this.game.displayedTargets) {
+        if (
+          this.x >= target.x &&
+          this.x <= target.x + target.width &&
+          this.y + this.height >= target.y + target.height
+        ) {
+          this.speed = 0;
+          this.y = target.y;
+        }
+      }
+    }*/
 
     this.speed += (this.GRAVITY / 1000) * 16;
     this.y += this.speed;

@@ -12,14 +12,14 @@ class Target {
     this.letter = letter;
     this.context = this.game.context;
     this.frame = 0;
-    this.platformHeight = 20;
+    //this.platformHeight = 20;
   }
 
   paint() {
     this.paintLetter();
   }
 
-  paintPlatform() {
+  /*paintPlatform() {
     this.context.fillStyle = 'white';
     this.context.fillRect(
       this.x,
@@ -27,7 +27,7 @@ class Target {
       this.width,
       this.platformHeight
     );
-  }
+  }*/
 
   paintLetter() {
     const indexOfLetter = this.game.alphabet.indexOf(this.letter);

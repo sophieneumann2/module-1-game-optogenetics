@@ -1,6 +1,6 @@
-/*const backgroundImage = new Image();
+const backgroundImage = new Image();
 backgroundImage.src = '/images/background.jpg';
-*/
+
 class Game {
   constructor(canvas, screens) {
     this.canvas = canvas;
@@ -9,32 +9,38 @@ class Game {
     this.canvasHeight = this.canvas.height;
     this.targetWord = '';
     this.targets = [];
-    this.displayedTargets = [];
     this.alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     this.lastTargetCreationTimestamp = Date.now();
     this.targetCreationInterval = 3000;
-
+    this.backgroundShift = 0;
     this.running = false;
     this.screens = screens;
     this.enableControls();
   }
   paintBackground() {
-    /*this.context.drawImage(
+    this.context.drawImage(
       backgroundImage,
       this.backgroundShift,
-      200,
-      500,
-      200,
+      0,
+      900,
+      700,
       0,
       0,
       900,
       700
     );
-    this.backgroundShift += 3;*/
+    this.backgroundShift += 2;
 
-    this.context.fillStyle = 'rgb(255, 134, 150)';
-    this.context.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
-    this.context.fillStyle = 'darkred';
+    let gradient = this.context.createLinearGradient(
+      this.canvasWidth * 0.5,
+      this.canvasHeight * 0.8,
+      this.canvasWidth * 0.5,
+      this.canvasHeight
+    );
+    gradient.addColorStop(0, 'rgb(0, 51, 102)');
+    gradient.addColorStop(1, 'rgb(25, 0, 51)');
+    this.context.fillStyle = gradient;
+
     this.context.fillRect(
       0,
       this.canvasHeight * 0.8,
@@ -49,18 +55,9 @@ class Game {
       (screen) => screen !== screenThatShouldBeDisplayed
     );
     screenThatShouldBeDisplayed.style.display = '';
-    /*if (screenThatShouldBeDisplayed[name] == 'configureProperties') {
-      for (const propertyCard of screen.getElementsByClassName) {
-        propertyCard.style.display = '';
-      }
-    }*/
+
     for (const screen of screensThatShouldBeHidden) {
       screen.style.display = 'none';
-      /*if (screen[name] == 'configureProperties') {
-        for (const propertyCard of screen.getElementsByClassName) {
-          propertyCard.style.display = 'none';
-        }
-      }*/
     }
   }
 
@@ -75,7 +72,6 @@ class Game {
   addTarget(letter) {
     const newTarget = new Target(this, letter);
     this.targets.push(newTarget);
-    this.displayedTargets.push(newTarget);
     this.numberOfDisplayedTargets++;
   }
 
@@ -134,7 +130,6 @@ class Game {
   }
 
   paintTarget() {
-    this.displayedTargets.forEach((target) => target.paintPlatform());
     this.targets.forEach((target) => target.paintLetter());
   }
 
@@ -165,7 +160,7 @@ class Game {
 
     this.clearTargets();
 
-    this.displayedTargets.forEach((target) => target.runLogic());
+    this.targets.forEach((target) => target.runLogic());
     this.player.jump();
 
     this.enemy.checkIfEnemyShouldJump();
@@ -184,10 +179,18 @@ class Game {
 
   enableControls() {
     window.addEventListener('keydown', (event) => {
-      if (event.code == 'Space') {
-        if (this.player.enableJumping) {
-          this.player.doJump = true;
-        }
+      switch (event.code) {
+        case 'Space':
+          if (this.player.enableJumping) {
+            this.player.doJump = true;
+          }
+          break;
+        case 'ArrowRight':
+          this.player.x += 2;
+          break;
+        case 'ArrowLeft':
+          this.player.x -= 2;
+          break;
       }
     });
   }

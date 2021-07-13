@@ -15,7 +15,7 @@ const screenElements = {
 };
 
 const startButton = screenStartElement.querySelector('button');
-const startPlayingButton = screenConfigurePropertiesElement.lastElementChild;
+const startPlayingButton = document.getElementById('btn-start-playing');
 const buttonGroupJumpingPlayer = document.getElementsByName(
   'jumpingPropertyPlayer'
 );
