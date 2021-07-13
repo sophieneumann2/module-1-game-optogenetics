@@ -8,7 +8,7 @@ class Target {
     this.height = 74;
     this.x = this.game.canvas.width;
     this.y = this.game.canvas.height * (0.15 + Math.random() * 0.25);
-    this.speed = 2;
+    this.speed = 3.5;
     this.letter = letter;
     this.context = this.game.context;
     this.frame = 0;
