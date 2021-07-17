@@ -1,7 +1,6 @@
 const backgroundImage = new Image();
 //backgroundImage.src = '/images/background.png';
 backgroundImage.src = '/images/background/sky.png';
-const backgroundLayers = [];
 const cloudsImage1 = new Image();
 cloudsImage1.src = '/images/background/clouds_1.png';
 const cloudsImage2 = new Image();
@@ -10,13 +9,23 @@ const groundImage = new Image();
 groundImage.src = '/images/background/ground.png';
 const rocksImage = new Image();
 rocksImage.src = '/images/background/rocks.png';
-backgroundLayers.push(backgroundImage);
-backgroundLayers.push(cloudsImage1);
-backgroundLayers.push(cloudsImage2);
-backgroundLayers.push(groundImage);
-backgroundLayers.push(rocksImage);
-/*const backgroundImage2 = new Image();
-backgroundImage2.src = '/images/background/sky.png';*/
+const backgroundLayers = [
+  backgroundImage,
+  cloudsImage1,
+  cloudsImage2,
+  rocksImage
+];
+
+const backgroundShifts = [0, 0.5, 1, 1.5];
+let originalWidthOfLayers = [];
+
+for (let layer of backgroundLayers) {
+  originalWidthOfLayers.push(layer.naturalWidth);
+}
+
+//let layersDrawn = [1, 1, 1, 1];
+
+let layerFrame = 0;
 
 class Game {
   constructor(canvas, screens) {
@@ -47,8 +56,49 @@ class Game {
       700
     );
     this.backgroundShift += 2;*/
+    let layerIndex = 0;
     for (let layer of backgroundLayers) {
-      this.context.drawImage(layer, 0, 0, this.canvasWidth, this.canvasHeight);
+      //this.context.drawImage(layer, 0, 0, this.canvasWidth, this.canvasHeight);
+      this.context.drawImage(
+        layer,
+        0 - layerFrame * backgroundShifts[layerIndex],
+        0,
+        this.canvasWidth,
+        this.canvasHeight
+      );
+      /*if (
+        layerFrame * backgroundShifts[layerIndex] >=
+        originalWidthOfLayers[layerIndex] * layersDrawn[layerIndex]
+      ) {
+        this.repeatDrawingLayer(layer, layerIndex, layerFrame);
+        layersDrawn[layerIndex]++;
+      }*/
+
+      this.context.drawImage(
+        layer,
+        this.canvasWidth - layerFrame * backgroundShifts[layerIndex] - 1,
+        0,
+        this.canvasWidth,
+        this.canvasHeight
+      );
+
+      this.context.drawImage(
+        layer,
+        this.canvasWidth * 2 - layerFrame * backgroundShifts[layerIndex] - 2,
+        0,
+        this.canvasWidth,
+        this.canvasHeight
+      );
+
+      this.context.drawImage(
+        layer,
+        this.canvasWidth * 3 - layerFrame * backgroundShifts[layerIndex] - 3,
+        0,
+        this.canvasWidth,
+        this.canvasHeight
+      );
+
+      layerIndex++;
     }
 
     let gradient = this.context.createLinearGradient(
@@ -66,6 +116,20 @@ class Game {
       this.canvasHeight * 0.8,
       this.canvasWidth,
       this.canvasHeight * 0.2
+    );
+
+    this.context.fillStyle = 'white';
+    this.context.font = '30px sans-serif';
+    this.context.fillText('PRESS SPACE TO JUMP', 280, 650);
+  }
+
+  repeatDrawingLayer(currentLayer, layerIndex, layerFrame) {
+    this.context.drawImage(
+      currentLayer,
+      this.canvasWidth - layerFrame * backgroundShifts[layerIndex],
+      0,
+      this.canvasWidth,
+      this.canvasHeight
     );
   }
 
@@ -199,6 +263,7 @@ class Game {
   loop() {
     this.runLogic();
     this.paint();
+    layerFrame++;
     if (this.running) {
       window.requestAnimationFrame(() => {
         this.loop();

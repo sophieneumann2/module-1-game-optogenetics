@@ -1,5 +1,20 @@
-const backgroundImage2 = new Image();
-backgroundImage2.src = '/images/background/sky.png';
+const backgroundImageDemo = new Image();
+backgroundImageDemo.src = '/images/background/sky.png';
+const cloudsImage1Demo = new Image();
+cloudsImage1Demo.src = '/images/background/clouds_1.png';
+const cloudsImage2Demo = new Image();
+cloudsImage2Demo.src = '/images/background/clouds_2.png';
+const groundImageDemo = new Image();
+groundImageDemo.src = '/images/background/ground.png';
+const rocksImageDemo = new Image();
+rocksImageDemo.src = '/images/background/rocks.png';
+const backgroundLayersDemo = [
+  backgroundImageDemo,
+  cloudsImage1Demo,
+  cloudsImage2Demo,
+  groundImageDemo,
+  rocksImageDemo
+];
 
 class Demo {
   constructor(canvas, screens, game) {
@@ -18,21 +33,9 @@ class Demo {
   }
 
   paintBackground() {
-    this.context.drawImage(
-      backgroundImage2,
-      0,
-      0,
-      this.canvasWidth,
-      this.canvasHeight
-    );
-
-    /*this.context.fillStyle = 'navy';
-    this.context.fillRect(
-      0,
-      this.canvasHeight * 0.8,
-      this.canvasWidth,
-      this.canvasHeight * 0.2
-    );*/
+    for (let layer of backgroundLayersDemo) {
+      this.context.drawImage(layer, 0, 0, this.canvasWidth, this.canvasHeight);
+    }
 
     let gradient = this.context.createLinearGradient(
       this.canvasWidth * 0.5,
@@ -79,6 +82,17 @@ class Demo {
     this.paintPlayer();
     this.paintTarget();
     if (this.demoPlayer.x + this.demoPlayer.width >= 780) {
+      this.context.fillStyle = 'rgba(255, 255, 255, 0.8)';
+
+      this.context.beginPath();
+      this.context.moveTo(68, 250);
+      this.context.arcTo(880, 250, 880, 330, 8);
+      this.context.arcTo(880, 330, 60, 330, 8);
+      this.context.arcTo(60, 330, 60, 250, 8);
+      this.context.arcTo(60, 250, 880, 250, 8);
+      this.context.closePath();
+      this.context.fill();
+
       this.context.fillStyle = 'black';
       this.context.font = '30px sans-serif';
       this.context.fillText(this.textToDisplay, 80, 300);
@@ -110,7 +124,6 @@ class Demo {
 
   start() {
     this.numberOfDisplayedTargets = 0;
-    //this.collectedTargets = [];
     this.running = true;
     this.addDemoPlayer();
     this.loop();
