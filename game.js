@@ -1,5 +1,22 @@
 const backgroundImage = new Image();
-backgroundImage.src = '/images/background.png';
+//backgroundImage.src = '/images/background.png';
+backgroundImage.src = '/images/background/sky.png';
+const backgroundLayers = [];
+const cloudsImage1 = new Image();
+cloudsImage1.src = '/images/background/clouds_1.png';
+const cloudsImage2 = new Image();
+cloudsImage2.src = '/images/background/clouds_2.png';
+const groundImage = new Image();
+groundImage.src = '/images/background/ground.png';
+const rocksImage = new Image();
+rocksImage.src = '/images/background/rocks.png';
+backgroundLayers.push(backgroundImage);
+backgroundLayers.push(cloudsImage1);
+backgroundLayers.push(cloudsImage2);
+backgroundLayers.push(groundImage);
+backgroundLayers.push(rocksImage);
+/*const backgroundImage2 = new Image();
+backgroundImage2.src = '/images/background/sky.png';*/
 
 class Game {
   constructor(canvas, screens) {
@@ -18,7 +35,7 @@ class Game {
     this.enableControls();
   }
   paintBackground() {
-    this.context.drawImage(
+    /*this.context.drawImage(
       backgroundImage,
       this.backgroundShift,
       0,
@@ -29,7 +46,10 @@ class Game {
       900,
       700
     );
-    this.backgroundShift += 2;
+    this.backgroundShift += 2;*/
+    for (let layer of backgroundLayers) {
+      this.context.drawImage(layer, 0, 0, this.canvasWidth, this.canvasHeight);
+    }
 
     let gradient = this.context.createLinearGradient(
       this.canvasWidth * 0.5,
@@ -77,6 +97,14 @@ class Game {
 
   checkWin() {
     this.context.font = '30px Arial';
+
+    this.screens['end'].querySelector(
+      '.expected-target-word'
+    ).innerText = `The expected target word was ${this.targetWord}`;
+    this.screens['end'].querySelector(
+      '.collected-target-word'
+    ).innerText = `You collected ${this.collectedTargets.join('')}`;
+
     if (this.collectedTargets.join('') == this.targetWord) {
       this.screens['end'].querySelector('h3').innerText =
         'YOU WIN, LITTLE SUPERHERO! :)';
@@ -161,6 +189,7 @@ class Game {
     this.clearTargets();
 
     this.targets.forEach((target) => target.runLogic());
+    //this.player.movePlayerHorizontally();
     this.player.jump();
 
     this.enemy.checkIfEnemyShouldJump();
@@ -185,14 +214,23 @@ class Game {
             this.player.doJump = true;
           }
           break;
-        case 'ArrowRight':
-          this.player.x += 2;
+        /*case 'ArrowRight':
+          this.player.accelerationX = 0.2;
           break;
         case 'ArrowLeft':
-          this.player.x -= 2;
-          break;
+          this.player.accelerationX = 0.2;
+          break;*/
       }
     });
+
+    /*window.addEventListener('keyup', (event) => {
+      switch (event.code) {
+        case 'ArrowRight':
+        case 'ArrowLeft':
+          this.player.accelerationX = 0;
+          break;
+      }
+    });*/
   }
 
   start(playerSpeed, playerGravity, enemySpeed, enemyGravity) {
@@ -204,5 +242,6 @@ class Game {
     this.addPlayer(playerSpeed, playerGravity);
     this.addEnemy(enemySpeed, enemyGravity);
     this.loop();
+    this.backgroundShift = 0;
   }
 }

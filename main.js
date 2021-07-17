@@ -1,4 +1,5 @@
-const canvasElement = document.querySelector('canvas');
+const canvasGameElement = document.getElementById('canvas-game');
+const canvasDemoElement = document.getElementById('canvas-demo');
 
 const screenStartElement = document.getElementById('screen-start');
 const screenConfigurePropertiesElement = document.getElementById(
@@ -6,15 +7,17 @@ const screenConfigurePropertiesElement = document.getElementById(
 );
 const screenPlayingElement = document.getElementById('screen-playing');
 const screenEndElement = document.getElementById('screen-end');
+const screenDemoElement = document.getElementById('screen-demo');
 
 const screenElements = {
   start: screenStartElement,
   configureProperties: screenConfigurePropertiesElement,
   playing: screenPlayingElement,
-  end: screenEndElement
+  end: screenEndElement,
+  demo: screenDemoElement
 };
 
-const startButton = screenStartElement.querySelector('button');
+const startButton = document.getElementById('btn-start-game');
 const startPlayingButton = document.getElementById('btn-start-playing');
 const buttonGroupJumpingPlayer = document.getElementsByName(
   'jumpingPropertyPlayer'
@@ -24,7 +27,7 @@ const buttonGroupJumpingEnemy = document.getElementsByName(
 );
 const tryAgainButton = screenEndElement.querySelector('button');
 
-const game = new Game(canvasElement, screenElements);
+const game = new Game(canvasGameElement, screenElements);
 
 const jumpingConfigurationPlayer = {};
 let currentPropertyArrayPlayer = [];
@@ -72,7 +75,9 @@ startPlayingButton.addEventListener('click', () => {
 });
 
 startButton.addEventListener('click', () => {
-  game.displayScreen('configureProperties');
+  const demo = new Demo(canvasDemoElement, screenElements, game);
+  game.displayScreen('demo');
+  demo.start();
 });
 
 tryAgainButton.addEventListener('click', () => {

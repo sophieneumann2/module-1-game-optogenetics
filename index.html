@@ -20,84 +20,28 @@
     <div class="screen" id="screen-start">
       <div class="d-flex flex-column justify-content-center align-items-center">
         <h1 id="game-name">Superpower Neuron Game</h1>
-        <button class="btn btn-primary mt-5 p-3">Start Game</button>
+        <div class="d-flex flex-row justify-content-around">
+          <button id="btn-start-game" class="btn btn-primary mt-5 mx-5 p-3">Start Game</button>
+        </div>
       </div>
     </div>
 
     <div class="screen" id="screen-configure-properties" style="display: none">
       <div class="d-flex flex-column justify-content-evenly align-items-center">
-        <h3 class="text-subheading">Hey little scientist, let's give your neuron some superpowers.</h1>
+        <h3 class="text-subheading fs-4">Hey little scientist 🧑‍🔬 ...</h1>
+          <p class="text-center px-5 mb-0">... let's help your neuron become active again by finding the correct combination of superpowers. But be careful: you only want to give your neuron some superpowers, not your enemies.</p>
           <section class="d-flex flex-row">
-            <div
-              class="btn-group-enemy card me-5"
-              role="group"
-              aria-label="Basic radio toggle button group"
-              style="width: 20rem"
-            >
-              <div class="card-body">
-                <h5 class="card-title">Unlocking superpowers w/ viral vectors</h5>
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the
-                  bulk of the card's content.
-                </p>
       
-                <div class="d-flex flex-row justify-content-evenly">
-                  <input
-                    type="radio"
-                    class="btn-check"
-                    name="jumpingPropertyEnemy"
-                    id="btn-jumping-properties-enemy-1"
-                    value="-35, 90"
-                    autocomplete="off"
-                  />
-                  <label
-                    class="btn btn-outline-primary"
-                    for="btn-jumping-properties-enemy-1"
-                    >Super 1</label
-                  >
-        
-                  <input
-                    type="radio"
-                    class="btn-check"
-                    name="jumpingPropertyEnemy"
-                    id="btn-jumping-properties-enemy-2"
-                    value="0, 1"
-                    autocomplete="off"
-                  />
-                  <label
-                    class="btn btn-outline-primary"
-                    for="btn-jumping-properties-enemy-2"
-                    >Super 2</label
-                  >
-        
-                  <input
-                    type="radio"
-                    class="btn-check"
-                    name="jumpingPropertyEnemy"
-                    id="btn-jumping-properties-enemy-3"
-                    value="-45, 300"
-                    autocomplete="off"
-                  />
-                  <label
-                    class="btn btn-outline-primary"
-                    for="btn-jumping-properties-enemy-3"
-                    >Super 3</label
-                  >
-                </div>
-              </div>
-            </div>
-
             <div
-              class="btn-group-player card"
+              class="btn-group-player card  me-5"
               role="group"
               aria-label="Basic radio toggle button group"
-              style="width: 20rem"
+              style="width: 22rem"
             >      
-              <div class="card-body">
-                <h5 class="card-title">Superwo:man, Batman or Flash - choose your superpowers</h5>
+              <div class="card-body d-flex flex-column justify-content-between">
+                <h5 class="card-title text-center fw-bold">Choose your superpowers (opsins) 💪</h5>
                 <p class="card-text">
-                  Some quick example text to build on the card title and make up the
-                  bulk of the card's content.
+                  Opsins are proteins that give your cells certain <span style="color: blue; font-weight: bold">superpowers</span>. But: each opsin is diffent. (In our case) some give you the ability to quickly jump very high and some make you jump very slowly or only very shallow. Find the correct superpowers (opsin) that allow you to <span style="color: blue; font-weight: bold">catch all targets</span>.
                 </p>
       
                 <div class="d-flex flex-row justify-content-evenly">
@@ -112,7 +56,7 @@
                   <label
                     class="btn btn-outline-primary"
                     for="btn-jumping-properties-player-1"
-                    >Super 1</label
+                    >Opsin 1</label
                   >
         
                   <input
@@ -126,7 +70,7 @@
                   <label
                     class="btn btn-outline-primary"
                     for="btn-jumping-properties-player-2"
-                    >Super 2</label
+                    >Opsin 2</label
                   >
         
                   <input
@@ -140,32 +84,98 @@
                   <label
                     class="btn btn-outline-primary"
                     for="btn-jumping-properties-player-3"
-                    >Super 3</label
+                    >Opsin 3</label
                   >
                 </div>
               </div>
             </div>
   
+            <div
+              class="btn-group-enemy card"
+              role="group"
+              aria-label="Basic radio toggle button group"
+              style="width: 22rem"
+            >
+              <div class="card-body d-flex flex-column justify-content-between">
+                <h5 class="card-title text-center fw-bold">Who get's the superpowers? (viral vectors) 🔑</h5>
+                <p class="card-text">
+                  To give cells optogenetic superpowers we have to <span style="color: blue; font-weight: bold">get access</span> to them by using viral vectors. They are like keys that can unlock cells and thus define who gets superpowers and who doesn't. Some viral vectors are quite <span style="color: blue; font-weight: bold">specific</span> and only unlock single cells, some are like <span style="color: blue; font-weight: bold">general keys</span> and unlock several cells. Find the right viral vector "key" that only unlocks (and gives the superpowers to) the neuron, not the enemy.
+                </p>
+      
+                <div class="d-flex flex-row justify-content-evenly">
+                  <input
+                    type="radio"
+                    class="btn-check"
+                    name="jumpingPropertyEnemy"
+                    id="btn-jumping-properties-enemy-1"
+                    value="-35, 90"
+                    autocomplete="off"
+                  />
+                  <label
+                    class="btn btn-outline-primary"
+                    for="btn-jumping-properties-enemy-1"
+                    >Vector 1</label
+                  >
+        
+                  <input
+                    type="radio"
+                    class="btn-check"
+                    name="jumpingPropertyEnemy"
+                    id="btn-jumping-properties-enemy-2"
+                    value="0, 1"
+                    autocomplete="off"
+                  />
+                  <label
+                    class="btn btn-outline-primary"
+                    for="btn-jumping-properties-enemy-2"
+                    >Vector 2</label
+                  >
+        
+                  <input
+                    type="radio"
+                    class="btn-check"
+                    name="jumpingPropertyEnemy"
+                    id="btn-jumping-properties-enemy-3"
+                    value="-45, 300"
+                    autocomplete="off"
+                  />
+                  <label
+                    class="btn btn-outline-primary"
+                    for="btn-jumping-properties-enemy-3"
+                    >Vector 3</label
+                  >
+                </div>
+              </div>
+            </div>
+
           </section>
           <div class="d-grid col-5 d-flex justify-content-center">
-            <button id="btn-start-playing" class="btn btn-danger btn-lg" >Try in action</button>
+            <button id="btn-start-playing" class="btn btn-primary btn-lg" >Try in action</button>
           </div>
       </div>
       
     </div>
 
     <div class="screen" id="screen-playing" style="display: none">
-      <canvas width="900" height="700"></canvas>
+      <canvas id="canvas-game" width="900" height="700"></canvas>
     </div>
 
     <div class="screen" id="screen-end" style="display: none">
       <div class="d-flex flex-column justify-content-center align-items-center">
-        <h3 class="text-end-screen"></h3>
+        <h3 class="text-end-screen text-center"></h3>
+        <p class="expected-target-word"></p>
+        <p class="collected-target-word"></p>
         <button class="btn btn-primary p-3">Try Again</button>
       </div>
     </div>
+
+    <div class="screen" id="screen-demo" style="display: none">
+      <canvas id="canvas-demo" width="900" height="700"></canvas>
+    </div>
     <script src="game.js"></script>
+    <script src="demo.js"></script>
     <script src="player.js"></script>
+    <script src="demo-player.js"></script>
     <script src="enemy.js"></script>
     <script src="target.js"></script>
     <script src="main.js"></script>

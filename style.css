@@ -12,7 +12,7 @@ font-family: 'Open Sans', sans-serif;
 */
 
 body {
-  background-color: rgba(255, 96, 91, 0.5);
+  background-color: rgb(240, 255, 255);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -21,7 +21,7 @@ body {
 }
 
 canvas {
-  background-color: rgb(255, 134, 130);
+  background-color: rgb(186, 253, 253);
 }
 
 h1 {
@@ -44,9 +44,10 @@ h1 {
 }
 
 #screen-configure-properties > div {
-  background-image: url('/images/lab-image.png');
+  /*background-image: url('/images/lab-image.png');
   background-position: center;
-  background-size: cover;
+  background-size: cover;*/
+  background-color: rgb(186, 253, 253);
 }
 
 #screen-end {
@@ -64,6 +65,10 @@ h1 {
   background-color: rgba(0, 0, 0, 0.8);
   border-radius: 25px;
   border: 0.5px solid yellow;
+}
+
+#screen-end > div > p {
+  color: white;
 }
 
 #game-name {
