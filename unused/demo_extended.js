@@ -16,18 +16,10 @@ const backgroundLayersDemo = [
   rocksImageDemo
 ];
 
-class Demo {
-  constructor(canvas, game) {
-    this.game = game;
-    this.canvas = canvas;
-    this.context = canvas.getContext('2d');
-    this.canvasWidth = this.canvas.width;
-    this.canvasHeight = this.canvas.height;
+class DemoExt extends RawGame {
+  constructor(canvas, screens, game) {
+    super(canvas, game);
     this.targetWord = 'HELLO';
-    this.targets = [];
-    this.alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-    this.running = false;
     this.textToDisplay =
       'Oh no, looks like this little neuron lost the ability to jump 😢';
   }
@@ -72,10 +64,6 @@ class Demo {
     this.demoPlayer.paintDemoPlayer();
   }
 
-  paintTarget() {
-    this.targets.forEach((target) => target.paintLetter());
-  }
-
   paint() {
     this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
     this.paintBackground();
@@ -110,16 +98,6 @@ class Demo {
 
     this.demoPlayer.checkIfDemoPlayerShouldJump();
     this.demoPlayer.jumpDemoPlayer();
-  }
-
-  loop() {
-    this.runLogic();
-    this.paint();
-    if (this.running) {
-      window.requestAnimationFrame(() => {
-        this.loop();
-      });
-    }
   }
 
   start() {

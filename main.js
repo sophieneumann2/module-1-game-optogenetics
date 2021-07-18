@@ -75,7 +75,7 @@ startPlayingButton.addEventListener('click', () => {
 });
 
 startButton.addEventListener('click', () => {
-  const demo = new Demo(canvasDemoElement, screenElements, game);
+  const demo = new Demo(canvasDemoElement, game);
   game.displayScreen('demo');
   demo.start();
 });

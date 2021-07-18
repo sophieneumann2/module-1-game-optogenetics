@@ -18,37 +18,57 @@ const backgroundLayers = [
 
 const backgroundShifts = [0, 0.5, 1, 1.5];
 
-class Game {
+class GameLevel1 extends RawGame {
   constructor(canvas, screens) {
-    this.canvas = canvas;
-    this.context = canvas.getContext('2d');
-    this.canvasWidth = this.canvas.width;
-    this.canvasHeight = this.canvas.height;
+    super(canvas, game);
     this.targetWord = '';
-    this.targets = [];
-    this.alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     this.lastTargetCreationTimestamp = Date.now();
     this.targetCreationInterval = 3000;
     this.backgroundShift = 0;
-    this.running = false;
     this.screens = screens;
     this.layerFrame = 0;
     this.enableControls();
   }
+
   paintBackground() {
     let layerIndex = 0;
     for (let layer of backgroundLayers) {
-      for (let iFrameDrawing = 0; iFrameDrawing < 4; iFrameDrawing++) {
-        this.context.drawImage(
-          layer,
-          this.canvasWidth * iFrameDrawing -
-            this.layerFrame * backgroundShifts[layerIndex] -
-            iFrameDrawing,
-          0,
-          this.canvasWidth,
-          this.canvasHeight
-        );
-      }
+      this.context.drawImage(
+        layer,
+        0 - this.layerFrame * backgroundShifts[layerIndex],
+        0,
+        this.canvasWidth,
+        this.canvasHeight
+      );
+
+      this.context.drawImage(
+        layer,
+        this.canvasWidth - this.layerFrame * backgroundShifts[layerIndex] - 1,
+        0,
+        this.canvasWidth,
+        this.canvasHeight
+      );
+
+      this.context.drawImage(
+        layer,
+        this.canvasWidth * 2 -
+          this.layerFrame * backgroundShifts[layerIndex] -
+          2,
+        0,
+        this.canvasWidth,
+        this.canvasHeight
+      );
+
+      this.context.drawImage(
+        layer,
+        this.canvasWidth * 3 -
+          this.layerFrame * backgroundShifts[layerIndex] -
+          3,
+        0,
+        this.canvasWidth,
+        this.canvasHeight
+      );
+
       layerIndex++;
     }
 
@@ -162,10 +182,6 @@ class Game {
     this.enemy.paint();
   }
 
-  paintTarget() {
-    this.targets.forEach((target) => target.paintLetter());
-  }
-
   paint() {
     this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
     this.paintBackground();
@@ -199,17 +215,6 @@ class Game {
 
     this.enemy.checkIfEnemyShouldJump();
     this.enemy.jump();
-  }
-
-  loop() {
-    this.runLogic();
-    this.paint();
-    this.layerFrame++;
-    if (this.running) {
-      window.requestAnimationFrame(() => {
-        this.loop();
-      });
-    }
   }
 
   enableControls() {
