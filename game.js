@@ -29,7 +29,7 @@ class Game {
     this.alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     this.lastTargetCreationTimestamp = Date.now();
     this.targetCreationInterval = 3000;
-    this.backgroundShift = 0;
+    //this.backgroundShift = 0;
     this.running = false;
     this.screens = screens;
     this.layerFrame = 0;
@@ -249,6 +249,6 @@ class Game {
     this.addPlayer(playerSpeed, playerGravity);
     this.addEnemy(enemySpeed, enemyGravity);
     this.loop();
-    this.backgroundShift = 0;
+    //this.backgroundShift = 0;
   }
 }
