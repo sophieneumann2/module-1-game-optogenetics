@@ -81,6 +81,6 @@ class DemoPlayer {
 
   paintDemoPlayer() {
     const context = this.demo.context;
-    context.drawImage(playerImage, this.x, this.y, this.width, this.height);
+    context.drawImage(playerImages[0], this.x, this.y, this.width, this.height);
   }
 }

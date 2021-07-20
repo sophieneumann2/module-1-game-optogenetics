@@ -1,26 +1,36 @@
-const playerImage = new Image();
-playerImage.src = '/images/player.png';
+/*const playerImage = new Image();
+playerImage.src = '/images/player.png';*/
+
+const playerImage1 = new Image();
+playerImage1.src = '/images/player.png';
+const playerImage2 = new Image();
+playerImage2.src = '/images/player2.png';
+const playerImages = [playerImage1, playerImage2];
 
 class Player {
-  constructor(game, speed, gravity) {
+  constructor(game, speed, gravity, playerIndex) {
     this.game = game;
     this.width = 90;
     this.height = 90;
     this.x = (this.game.canvas.width - this.width) / 3;
     this.y = this.game.canvas.height * 0.8 - this.height;
     this.jumpingStartSpeed = speed;
-    //this.speedX = 0;
     this.speedY = 0;
-    //this.accelerationX = 0;
     this.GRAVITY = gravity;
     this.enableJumping = true;
     this.doJump = false;
-    //this.movingDown = false;
+    this.numberOfPlayer = playerIndex;
   }
 
   paint() {
     const context = this.game.context;
-    context.drawImage(playerImage, this.x, this.y, this.width, this.height);
+    context.drawImage(
+      playerImages[this.numberOfPlayer - 1],
+      this.x,
+      this.y,
+      this.width,
+      this.height
+    );
   }
 
   checkTargetIntersection() {

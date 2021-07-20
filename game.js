@@ -25,15 +25,21 @@ class Game {
     this.canvasWidth = this.canvas.width;
     this.canvasHeight = this.canvas.height;
     this.targetWord = '';
+    //this.targetWord = [];
     this.targets = [];
     this.alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     this.lastTargetCreationTimestamp = Date.now();
     this.targetCreationInterval = 3000;
-    //this.backgroundShift = 0;
     this.running = false;
     this.screens = screens;
     this.layerFrame = 0;
+    this.players = [];
     this.enableControls();
+    this.xPositionOfPlayers = [
+      (this.canvasWidth - 90) / 3,
+      (this.canvasWidth - 90) / 2
+    ];
+    this.currentLevel = 1;
   }
   paintBackground() {
     let layerIndex = 0;
@@ -86,8 +92,12 @@ class Game {
     }
   }
 
-  addPlayer(speed, gravity) {
-    this.player = new Player(this, speed, gravity);
+  addPlayer(speed, gravity, playerIndex) {
+    //this.player = new Player(this, speed, gravity);
+    let newPlayer = new Player(this, speed, gravity, playerIndex);
+    newPlayer.x = this.xPositionOfPlayers[this.players.length]; // only for 2 players recently
+
+    this.players.push(newPlayer);
   }
 
   addEnemy(speed, gravity) {
@@ -113,8 +123,15 @@ class Game {
     if (this.collectedTargets.join('') == this.targetWord) {
       this.screens['end'].querySelector('h3').innerText =
         'YOU WIN, LITTLE SUPERHERO! :)';
+      if (nextLevelButton.classList.contains('disabled')) {
+        nextLevelButton.classList.remove('disabled');
+      }
+      if (this.currentLevel == 2) {
+        nextLevelButton.classList.add('disabled');
+      }
     } else {
       this.screens['end'].querySelector('h3').innerText = 'SORRY, YOU LOST :(';
+      nextLevelButton.classList.add('disabled');
     }
     this.running = false;
     console.log('Game stopped');
@@ -137,10 +154,13 @@ class Game {
       'EVERGREEN',
       'FIREPLACE'
     ];
-    this.targetWord =
+    let newTargetWord =
       possibleTargetWords[
         Math.floor(Math.random() * possibleTargetWords.length)
       ];
+    //this.targetWord.push(newTargetWord);
+    this.targetWord = newTargetWord;
+
     return;
   }
 
@@ -155,7 +175,8 @@ class Game {
   }
 
   paintPlayer() {
-    this.player.paint();
+    //this.player.paint();
+    this.players.forEach((player) => player.paint());
   }
 
   paintEnemy() {
@@ -194,8 +215,8 @@ class Game {
     this.clearTargets();
 
     this.targets.forEach((target) => target.runLogic());
-    //this.player.movePlayerHorizontally();
-    this.player.jump();
+    //this.player.jump();
+    this.players.forEach((player) => player.jump());
 
     this.enemy.checkIfEnemyShouldJump();
     this.enemy.jump();
@@ -216,8 +237,15 @@ class Game {
     window.addEventListener('keydown', (event) => {
       switch (event.code) {
         case 'Space':
-          if (this.player.enableJumping) {
-            this.player.doJump = true;
+          //if (this.player.enableJumping) {
+          if (this.players[0].enableJumping) {
+            this.players[0].doJump = true;
+          }
+          break;
+        case 'ArrowUp':
+          //if (this.player.enableJumping) {
+          if (this.players[1] && this.players[1].enableJumping) {
+            this.players[1].doJump = true;
           }
           break;
         /*case 'ArrowRight':
@@ -228,15 +256,6 @@ class Game {
           break;*/
       }
     });
-
-    /*window.addEventListener('keyup', (event) => {
-      switch (event.code) {
-        case 'ArrowRight':
-        case 'ArrowLeft':
-          this.player.accelerationX = 0;
-          break;
-      }
-    });*/
   }
 
   start(playerSpeed, playerGravity, enemySpeed, enemyGravity) {
@@ -245,10 +264,16 @@ class Game {
     this.collectedTargets = [];
     this.running = true;
     this.layerFrame = 0;
+    this.players = [];
     this.displayScreen('playing');
-    this.addPlayer(playerSpeed, playerGravity);
+    for (
+      let numberOfPlayers = 1;
+      numberOfPlayers <= this.currentLevel;
+      numberOfPlayers++
+    ) {
+      this.addPlayer(playerSpeed, playerGravity, numberOfPlayers);
+    }
     this.addEnemy(enemySpeed, enemyGravity);
     this.loop();
-    //this.backgroundShift = 0;
   }
 }

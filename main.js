@@ -25,7 +25,8 @@ const buttonGroupJumpingPlayer = document.getElementsByName(
 const buttonGroupJumpingEnemy = document.getElementsByName(
   'jumpingPropertyEnemy'
 );
-const tryAgainButton = screenEndElement.querySelector('button');
+const tryAgainButton = document.getElementById('btn-try-again');
+const nextLevelButton = document.getElementById('btn-next-level');
 
 const game = new Game(canvasGameElement, screenElements);
 
@@ -81,5 +82,12 @@ startButton.addEventListener('click', () => {
 });
 
 tryAgainButton.addEventListener('click', () => {
+  game.displayScreen('configureProperties');
+});
+
+nextLevelButton.addEventListener('click', () => {
+  if (game.currentLevel < 2) {
+  }
+  game.currentLevel++;
   game.displayScreen('configureProperties');
 });
