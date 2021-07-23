@@ -61,7 +61,7 @@ for (let enemyButton of buttonGroupJumpingEnemy) {
 
 startPlayingButton.addEventListener('click', () => {
   if (
-    Object.keys(jumpingConfigurationPlayer).length ||
+    Object.keys(jumpingConfigurationPlayer).length &&
     Object.keys(jumpingConfigurationEnemy).length
   ) {
     game.start(

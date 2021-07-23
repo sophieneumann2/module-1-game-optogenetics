@@ -34,6 +34,12 @@ class Game {
     this.screens = screens;
     this.layerFrame = 0;
     this.players = [];
+    this.backgroundPositions = [
+      [0, this.canvasWidth - 1],
+      [0, this.canvasWidth - 1],
+      [0, this.canvasWidth - 1],
+      [0, this.canvasWidth - 1]
+    ];
     this.enableControls();
     this.xPositionOfPlayers = [
       (this.canvasWidth - 90) / 3,
@@ -41,20 +47,40 @@ class Game {
     ];
     this.currentLevel = 1;
   }
+
+  repeatBackground() {
+    for (let iLayer = 0; iLayer < backgroundLayers.length; iLayer++) {
+      this.backgroundPositions[iLayer][0] -= backgroundShifts[iLayer];
+      this.backgroundPositions[iLayer][1] -= backgroundShifts[iLayer];
+      if (this.backgroundPositions[iLayer][0] + this.canvasWidth < 0) {
+        this.backgroundPositions[iLayer][0] =
+          this.backgroundPositions[iLayer][1] + this.canvasWidth - 1;
+      }
+      if (this.backgroundPositions[iLayer][1] + this.canvasWidth < 0) {
+        this.backgroundPositions[iLayer][1] =
+          this.backgroundPositions[iLayer][0] + this.canvasWidth - 1;
+      }
+    }
+  }
+
   paintBackground() {
+    this.repeatBackground();
     let layerIndex = 0;
     for (let layer of backgroundLayers) {
-      for (let iFrameDrawing = 0; iFrameDrawing < 4; iFrameDrawing++) {
-        this.context.drawImage(
-          layer,
-          this.canvasWidth * iFrameDrawing -
-            this.layerFrame * backgroundShifts[layerIndex] -
-            iFrameDrawing,
-          0,
-          this.canvasWidth,
-          this.canvasHeight
-        );
-      }
+      this.context.drawImage(
+        layer,
+        this.backgroundPositions[layerIndex][0],
+        0,
+        this.canvasWidth,
+        this.canvasHeight
+      );
+      this.context.drawImage(
+        layer,
+        this.backgroundPositions[layerIndex][1],
+        0,
+        this.canvasWidth,
+        this.canvasHeight
+      );
       layerIndex++;
     }
 
